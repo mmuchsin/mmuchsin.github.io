@@ -13,7 +13,6 @@
     "name": "Muchsin",
     "tagline": "Saya membangun alat bahasa untuk bahasa beraksara Arab \u2014 dari transliterasi Pegon hingga riset RAG.",
     "sub": "Keilmuan Islam klasik bertemu sistem modern: karya saya mencakup NLP, retrieval-augmented generation, dan rekayasa web.",
-    "flip_hint": "klik untuk ganti aksara",
     "cta_projects": "Lihat karya saya",
     "cta_contact": "Hubungi saya"
   },
@@ -91,6 +90,9 @@
     "github_url": "https://github.com/mmuchsin",
     "linkedin_url": "https://www.linkedin.com/in/mmuchsin"
   },
+  "blog_subtitle": "Catatan belajar dan renungan teknis",
+  "tag_heading": "Postingan bertanda ",
+  "blog_back": "\u2190 Kembali ke Blog",
   "footer": {
     "text": "\u00a9 2026 Muchsin",
     "colophon": "Diset dalam tipografi sistem \u00b7 Dibuat dengan SvelteKit"

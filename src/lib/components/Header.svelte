@@ -1,23 +1,34 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+	import { page } from '$app/state';
 	import LanguageToggle from './LanguageToggle.svelte';
 	import type { Dictionary, Locale } from '$lib/i18n';
 
-	let { nav, lang, setLang, activeSection }: {
+	let { nav, locale, setLang, activeSection }: {
 		nav: Dictionary['nav'];
-		lang: Locale;
+		locale: Locale;
 		setLang: (locale: Locale) => void;
-		activeSection: string;
+		activeSection: string | null;
 	} = $props();
 
 	let menuOpen = $state(false);
+
+	// Nav targets live under the active locale: section keys stay anchors
+	// on the one-page home (/en/#about), blog is its own route. Track the
+	// current route so Blog highlights on every blog page.
+	const onBlogRoute = $derived(page.route.id?.startsWith('/[locale]/blog') ?? false);
 
 	function closeMenu() {
 		menuOpen = false;
 	}
 
+	function sectionHref(key: string): string {
+		if (key === 'blog') return `${base}/${locale}/blog/`;
+		return `${base}/${locale}/#${key}`;
+	}
+
 	function isSectionActive(sectionId: string): boolean {
-		if (sectionId === 'blog') return activeSection === 'blog';
+		if (sectionId === 'blog') return onBlogRoute;
 		return activeSection === sectionId;
 	}
 </script>
@@ -27,28 +38,16 @@
 		<a class="brand" href={`${base}/`}>Muchsin</a>
 		<nav class="site-nav" aria-label="Sections">
 			{#each Object.entries(nav) as [key, label]}
-				{#if key === 'blog'}
-					<!-- External page link -->
-					<a
-						href={`${base}/blog`}
-						class:active={isSectionActive('blog')}
-						aria-current={isSectionActive('blog') ? 'page' : undefined}
-						onclick={closeMenu}>
-						{label}
-					</a>
-				{:else}
-					{@const sectionId = key === 'about' ? 'about' : key === 'projects' ? 'projects' : 'contact'}
-					<a
-						href={`#${sectionId}`}
-						class:active={isSectionActive(sectionId)}
-						aria-current={isSectionActive(sectionId) ? 'page' : undefined}
-						onclick={closeMenu}>
-						{label}
-					</a>
-				{/if}
+				<a
+					href={sectionHref(key)}
+					class:active={isSectionActive(key)}
+					aria-current={isSectionActive(key) ? 'page' : undefined}
+					onclick={closeMenu}>
+					{label}
+				</a>
 			{/each}
 		</nav>
-		<LanguageToggle {lang} {setLang} />
+		<LanguageToggle lang={locale} {setLang} />
 		<button
 			type="button"
 			class="hamburger"
@@ -64,19 +63,12 @@
 	{#if menuOpen}
 		<nav class="mobile-nav" aria-label="Sections mobile">
 			{#each Object.entries(nav) as [key, label]}
-				{#if key === 'blog'}
-					<a href={`${base}/blog`} onclick={closeMenu}>
-						{label}
-					</a>
-				{:else}
-					{@const sectionId = key === 'about' ? 'about' : key === 'projects' ? 'projects' : 'contact'}
-					<a
-						href={`#${sectionId}`}
-						class:active={isSectionActive(sectionId)}
-						onclick={closeMenu}>
-						{label}
-					</a>
-				{/if}
+				<a
+					href={sectionHref(key)}
+					class:active={isSectionActive(key)}
+					onclick={closeMenu}>
+					{label}
+				</a>
 			{/each}
 		</nav>
 	{/if}

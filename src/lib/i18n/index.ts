@@ -17,12 +17,11 @@ export interface Project {
 
 export interface Dictionary {
 	meta: { title: string; description: string };
-	nav: { about: string; projects: string; contact: string };
+	nav: { about: string; projects: string; contact: string; blog: string };
 	hero: {
 		name: string;
 		tagline: string;
 		sub: string;
-		flip_hint: string;
 		cta_projects: string;
 		cta_contact: string;
 	};
@@ -52,6 +51,9 @@ export interface Dictionary {
 		linkedin_url: string;
 	};
 	footer: { text: string; colophon: string };
+	blog_subtitle: string;
+	tag_heading: string;
+	blog_back: string;
 }
 
 /**

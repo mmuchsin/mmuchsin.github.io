@@ -5,14 +5,21 @@
 
 	let { data }: { data: PageData } = $props();
 
-	const posts = $derived(data.posts as BlogPost[]);
+	const locale = $derived(data.locale);
+	const t = $derived(data.t);
+
+	// Filter by both the tag and the locale (already filtered in server, but keep as safety).
+	const posts = $derived(
+		(data.posts as BlogPost[]).filter((p: BlogPost) => p.lang === locale)
+	);
+
 	const tag = $derived(data.tag as string);
 </script>
 
 <main id="main-content" class="tag-page">
 	<header class="tag-header">
-		<a href={`${base}/blog`} class="back-link">← Back to Blog</a>
-		<h1>Posts tagged with <span class="tag-name">#{tag}</span></h1>
+		<a href={`${base}/${locale}/blog/`} class="back-link">{t.blog_back ?? '← Back to Blog'}</a>
+		<h1>{t.tag_heading} <span class="tag-name">#{tag}</span></h1>
 	</header>
 
 	{#if posts.length === 0}
@@ -21,9 +28,9 @@
 		<div class="post-list">
 			{#each posts as post (post.slug)}
 				<article class="post-card">
-					<a href={`${base}/blog/${post.slug}`} class="post-link">
+					<a href={`${base}/${locale}/blog/${post.slug}/`} class="post-link">
 						<div class="post-meta">
-							<span class="post-date">{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+							<span class="post-date">{new Date(post.date).toLocaleDateString(locale === 'id' ? 'id-ID' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
 							{#if post.categories.length > 0}
 								<span class="post-category">{post.categories[0]}</span>
 							{/if}
@@ -48,7 +55,7 @@
 	}
 
 	.tag-header {
-		margin-bottom: 2rem;
+		margin-bottom: 1rem;
 	}
 
 	.back-link {
