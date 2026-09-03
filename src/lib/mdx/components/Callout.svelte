@@ -19,7 +19,7 @@
 		info: '#6366f1'
 	}
 
-	const displayTitle = title ?? type.charAt(0).toUpperCase() + type.slice(1)
+	const displayTitle = $derived(title ?? type.charAt(0).toUpperCase() + type.slice(1))
 </script>
 
 <div class="callout" style="--callout-color: {colors[type]}">

@@ -12,5 +12,8 @@ node_modules
 .agents/
 .codex/
 .mcp.json
+
+/playwright-report
+/test-results
 .playwright/
 .scratch/

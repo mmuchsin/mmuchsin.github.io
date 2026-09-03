@@ -1,55 +1,47 @@
 <script lang="ts">
 	import { base } from '$app/paths';
-	import { error } from '@sveltejs/kit';
 	import type { PageData } from './$types';
 	import type { BlogPost } from '$lib/mdx/types.js';
+	import type { Dictionary } from '$lib/i18n';
 
-	let { data }: { data: PageData } = $props();
-
+	let { data }: { data: PageData & { locale: 'en' | 'id'; t: Dictionary } } = $props();
 	const post = $derived(data.post as BlogPost);
-
-	if (!post) {
-		throw error(404, 'Not found');
-	}
-
-	function formatDate(dateStr: string): string {
-		return new Date(dateStr).toLocaleDateString('en-US', {
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric'
-		});
-	}
+	const t = $derived(data.t);
 </script>
 
 <main id="main-content">
-	<article class="post">
-	<header class="post-header">
-		<div class="post-meta">
-			<span class="post-date">{formatDate(post.date)}</span>
-			{#if post.categories.length > 0}
-				<span class="post-category">{post.categories.join(', ')}</span>
-			{/if}
-			<span class="reading-time">{post.readingTime} min read</span>
-		</div>
-		<h1 class="post-title">{post.title}</h1>
-		{#if post.description}
-			<p class="post-description">{post.description}</p>
-		{/if}
-		{#if post.tags.length > 0}
-			<div class="post-tags">
-				{#each post.tags as tag}
-					<a href={`${base}/blog/tags/${tag}`} class="tag">#{tag}</a>
-				{/each}
+	{#if post}
+		<article class="post">
+		<header class="post-header">
+			<div class="post-meta">
+				<span class="post-date">{new Date(post.date).toLocaleDateString(data.locale === 'id' ? 'id-ID' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+				{#if post.categories.length > 0}
+					<span class="post-category">{post.categories.join(', ')}</span>
+				{/if}
+				<span class="reading-time">{post.readingTime} min read</span>
 			</div>
-		{/if}
-	</header>
+			<h1 class="post-title">{post.title}</h1>
+			{#if post.description}
+				<p class="post-description">{post.description}</p>
+			{/if}
+			{#if post.tags.length > 0}
+				<div class="post-tags">
+					{#each post.tags as tag}
+						<a href={`${base}/${data.locale}/blog/tags/${tag}/`} class="tag">#{tag}</a>
+					{/each}
+				</div>
+			{/if}
+		</header>
 
-	<!-- MDX Content -->
-	<div class="post-content">{@html post.content}</div>
+		<!-- MDX Content -->
+		<div class="post-content">{@html post.content}</div>
 
-		<!-- Back to blog -->
-		<a href={`${base}/blog`} class="back-link">← Back to Blog</a>
-	</article>
+			<!-- Back to blog -->
+			<a href={`${base}/${data.locale}/blog/`} class="back-link">{t.blog_back}</a>
+		</article>
+	{:else}
+		<p>Post not found</p>
+	{/if}
 </main>
 
 <style>

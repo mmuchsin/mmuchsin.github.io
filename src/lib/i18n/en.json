@@ -13,7 +13,6 @@
     "name": "Muchsin",
     "tagline": "I build language tools for Arabic-script languages \u2014 from Pegon transliteration to RAG research.",
     "sub": "Classical Islamic scholarship meets modern systems: my work spans NLP, retrieval-augmented generation, and web engineering.",
-    "flip_hint": "click to switch script",
     "cta_projects": "See my work",
     "cta_contact": "Get in touch"
   },
@@ -91,6 +90,9 @@
     "github_url": "https://github.com/mmuchsin",
     "linkedin_url": "https://www.linkedin.com/in/mmuchsin"
   },
+  "blog_subtitle": "Learning notes and technical reflections",
+  "tag_heading": "Posts tagged with ",
+  "blog_back": "\u2190 Back to Blog",
   "footer": {
     "text": "\u00a9 2026 Muchsin",
     "colophon": "Set in system type \u00b7 Built with SvelteKit"

@@ -5,28 +5,31 @@
 
 	let { data }: { data: PageData } = $props();
 
+	const locale = $derived(data.locale);
+	const t = $derived(data.t);
+
+	// Filter posts by the current locale.
+	const posts = $derived(data.posts.filter((p: BlogPost) => p.lang === locale));
+
+	// Show all tags/categories from the current-locale subset.
+	const allTags = $derived(Array.from(new Set(posts.flatMap((p: BlogPost) => p.tags))).sort() as string[]);
+	const allCategories = $derived(Array.from(new Set(posts.flatMap((p: BlogPost) => p.categories))).sort() as string[]);
+
 	let selectedTag = $state<string | null>(null);
 	let selectedCategory = $state<string | null>(null);
-	let selectedLang = $state<'en' | 'id' | null>(null);
 
-	const posts = $derived(data.posts.filter((post: BlogPost) => {
-		const tagMatch = !selectedTag || post.tags.includes(selectedTag);
-		const catMatch = !selectedCategory || post.categories.includes(selectedCategory);
-		const langMatch = !selectedLang || post.lang === selectedLang;
-		return tagMatch && catMatch && langMatch;
-	}));
-
-	const allTags = $derived(Array.from(new Set(data.posts.flatMap((p: BlogPost) => p.tags))).sort() as string[]);
-	const allCategories = $derived(Array.from(new Set(data.posts.flatMap((p: BlogPost) => p.categories))).sort() as string[]);
-	const allLangs = $derived(Array.from(new Set(data.posts.map((p: BlogPost) => p.lang))).sort() as ('en' | 'id')[]);
+	const filteredPosts = $derived(
+		posts.filter((post: BlogPost) => {
+			const tagMatch = !selectedTag || post.tags.includes(selectedTag);
+			const catMatch = !selectedCategory || post.categories.includes(selectedCategory);
+			return tagMatch && catMatch;
+		})
+	);
 
 	function clearFilters() {
 		selectedTag = null;
 		selectedCategory = null;
-		selectedLang = null;
 	}
-
-	const langLabel = (lang: string) => lang === 'id' ? 'Bahasa Indonesia' : 'English';
 
 	function isActive(value: string, selected: string | null): boolean {
 		return selected === value;
@@ -35,32 +38,9 @@
 
 <main id="main-content" class="blog-list">
 	<header class="blog-header">
-		<h1>Blog</h1>
-		<p>Learning notes and technical reflections</p>
+		<h1>{t.nav.blog}</h1>
+		<p>{t.blog_subtitle ?? 'Learning notes and technical reflections'}</p>
 	</header>
-
-	<!-- Language Filter -->
-	{#if allLangs.length > 1}
-		<div class="filters">
-			<div class="filter-group">
-				<span class="filter-label">Language:</span>
-				<button
-					class="filter-btn {isActive('all', selectedLang)}"
-					onclick={() => { selectedLang = null; }}
-				>
-					All
-				</button>
-				{#each allLangs as lang}
-					<button
-						class="filter-btn {isActive(lang, selectedLang)}"
-						onclick={() => { selectedLang = lang; }}
-					>
-						{langLabel(lang)}
-					</button>
-				{/each}
-			</div>
-		</div>
-	{/if}
 
 	<!-- Tag & Category Filters -->
 	{#if allTags.length > 0 || allCategories.length > 0}
@@ -70,15 +50,13 @@
 					<span class="filter-label">Category:</span>
 					<button
 						class="filter-btn {isActive('all', selectedCategory)}"
-						onclick={() => { selectedCategory = null; }}
-					>
+						onclick={() => { selectedCategory = null; }}>
 						All
 					</button>
 					{#each allCategories as category}
 						<button
 							class="filter-btn {isActive(category, selectedCategory)}"
-							onclick={() => { selectedCategory = category; }}
-						>
+							onclick={() => { selectedCategory = category; }}>
 							{category}
 						</button>
 					{/each}
@@ -90,38 +68,36 @@
 					<span class="filter-label">Tag:</span>
 					<button
 						class="filter-btn {isActive('all', selectedTag)}"
-						onclick={() => { selectedTag = null; }}
-					>
+						onclick={() => { selectedTag = null; }}>
 						All
 					</button>
 					{#each allTags as tag}
-						<a href={`${base}/blog/tags/${tag}`} class="filter-btn {isActive(tag, selectedTag)}">
+						<a href={`${base}/${locale}/blog/tags/${tag}/`} class="filter-btn {isActive(tag, selectedTag)}">
 							#{tag}
 						</a>
 					{/each}
 				</div>
 			{/if}
 
-			{#if selectedTag || selectedCategory || selectedLang}
+			{#if selectedTag || selectedCategory}
 				<button class="clear-btn" onclick={clearFilters}>Clear filters</button>
 			{/if}
 		</div>
 	{/if}
 
 	<!-- Post List -->
-	{#if posts.length === 0}
+	{#if filteredPosts.length === 0}
 		<p class="empty-state">No posts found. Check back soon!</p>
 	{:else}
 		<div class="post-list">
-			{#each posts as post (post.slug)}
+			{#each filteredPosts as post (post.slug)}
 				<article class="post-card">
-					<a href={`${base}/blog/${post.slug}`} class="post-link">
+					<a href={`${base}/${locale}/blog/${post.slug}/`} class="post-link">
 						<div class="post-meta">
-							<span class="post-date">{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+							<span class="post-date">{new Date(post.date).toLocaleDateString(locale === 'id' ? 'id-ID' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
 							{#if post.categories.length > 0}
 								<span class="post-category">{post.categories[0]}</span>
 							{/if}
-							<span class="post-lang">{langLabel(post.lang)}</span>
 						</div>
 						<h2 class="post-title">{post.title}</h2>
 						<p class="post-description">{post.description}</p>
@@ -150,7 +126,7 @@
 	}
 
 	.blog-header {
-		margin-bottom: 2rem;
+		margin-bottom: 1rem;
 	}
 
 	.blog-header h1 {
@@ -253,14 +229,6 @@
 	.post-category {
 		background: var(--accent);
 		color: white;
-		padding: 0.125rem 0.5rem;
-		border-radius: 9999px;
-		font-size: 0.75rem;
-	}
-
-	.post-lang {
-		background: var(--muted);
-		color: var(--bg);
 		padding: 0.125rem 0.5rem;
 		border-radius: 9999px;
 		font-size: 0.75rem;
