@@ -1,0 +1,98 @@
+{
+  "meta": {
+    "title": "Muchsin \u2014 Portofolio",
+    "description": "Portofolio Muchsin \u2014 software engineer yang fokus pada NLP, riset RAG, dan rekayasa web."
+  },
+  "nav": {
+    "about": "Tentang",
+    "projects": "Proyek",
+    "contact": "Kontak",
+    "blog": "Blog"
+  },
+  "hero": {
+    "name": "Muchsin",
+    "tagline": "Saya membangun alat bahasa untuk bahasa beraksara Arab \u2014 dari transliterasi Pegon hingga riset RAG.",
+    "sub": "Keilmuan Islam klasik bertemu sistem modern: karya saya mencakup NLP, retrieval-augmented generation, dan rekayasa web.",
+    "flip_hint": "klik untuk ganti aksara",
+    "cta_projects": "Lihat karya saya",
+    "cta_contact": "Hubungi saya"
+  },
+  "about": {
+    "eyebrow": "Latar belakang",
+    "title": "Tentang",
+    "body_1": "Saya tumbuh sebagai santri, di mana nahwu (tata bahasa Arab klasik) dan aksara Pegon adalah bagian dari keseharian. Latar itu membentuk cara saya memandang bahasa: sebagai struktur, ketelitian, dan ilmu yang diwariskan lintas generasi.",
+    "body_2": "Kini saya seorang software engineer dan mahasiswa S2 di UNNES yang bekerja pada retrieval-augmented generation (RAG) serta membangun alat NLP untuk bahasa beraksara Arab. Karya saya mencakup rekayasa web, riset machine learning, dan platform komunitas.",
+    "highlights_title": "Bidang fokus",
+    "highlights": [
+      "NLP & transliterasi",
+      "Riset RAG / LLM",
+      "Rekayasa web",
+      "Humaniora Islam komputasional"
+    ]
+  },
+  "projects": {
+    "eyebrow": "Proyek terpilih",
+    "title": "Proyek",
+    "intro": "Beberapa hal yang pernah saya bangun \u2014 dari alat bahasa open-source hingga proyek klien.",
+    "live": "Tautan",
+    "repo_label": "Kode sumber",
+    "items": [
+      {
+        "name": "Pegonku",
+        "description": "Mesin transliterasi aksara Pegon \u2014 tulisan Jawa beraksara Arab \u2014 yang mengonversi antara Pegon dan Latin dengan akurasi tinggi.",
+        "tags": [
+          "Nuxt",
+          "Python",
+          "NLP",
+          "Pegon"
+        ],
+        "live": "https://pegonku.netlify.app"
+      },
+      {
+        "name": "Pemuda Inklusi",
+        "description": "Platform komunitas untuk pengembangan pemuda yang inklusif \u2014 dibangun bersama, untuk komunitasnya.",
+        "tags": [
+          "Vue",
+          "Nuxt",
+          "Komunitas"
+        ],
+        "live": "https://pemudainklusi.org"
+      },
+      {
+        "name": "Tokodifabel",
+        "description": "Toko daring untuk brand fashion, dari desain hingga peluncuran \u2014 WordPress/WooCommerce dengan interaksi berbasis GSAP.",
+        "tags": [
+          "WordPress",
+          "WooCommerce",
+          "GSAP",
+          "Freelance"
+        ],
+        "live": "https://tokodifabel.com"
+      },
+      {
+        "name": "TQA RAG Playground",
+        "description": "Playground riset untuk tesis S2 saya: pipeline RAG atas dataset thesis question answering, dilatih dan dievaluasi di klaster HPC UNNES.",
+        "tags": [
+          "Python",
+          "RAG",
+          "HPC",
+          "Riset tesis"
+        ],
+        "repo": "https://github.com/mmuchsin/tqa-rag"
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Hubungi saya",
+    "title": "Kontak",
+    "intro": "Cara tercepat menghubungi saya adalah lewat GitHub atau LinkedIn. Saya terbuka untuk kolaborasi riset, proyek freelance, dan percakapan tentang bahasa dan kode.",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "github_url": "https://github.com/mmuchsin",
+    "linkedin_url": "https://www.linkedin.com/in/mmuchsin"
+  },
+  "footer": {
+    "text": "\u00a9 2026 Muchsin",
+    "colophon": "Diset dalam tipografi sistem \u00b7 Dibuat dengan SvelteKit"
+  }
+}

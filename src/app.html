@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.svg" type="image/svg+xml" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="color-scheme" content="light" />
+		<!-- Marks JS availability before first paint so CSS can gate hidden
+		     pre-reveal states (ADR 0005) — no-JS visitors always see content. -->
+		<script>document.documentElement.classList.add('js');</script>
+		<meta
+			name="description"
+			content="Portfolio of Muchsin — software engineer at the intersection of Islamic scholarship and modern technology: NLP, RAG research, and web engineering."
+		/>
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="tap">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>

@@ -1,0 +1,836 @@
+/* ---------------------------------------------------------------------------
+   Design Tokens — Light Editorial Theme (ADR 0004 superseded by v1.2 redesign)
+   Motion per ADR 0005
+
+   Three type voices, each encoding something true about the subject:
+   serif display = the classical text · sans body = engineering prose
+   mono utility  = the tools (labels, meta, tags)
+--------------------------------------------------------------------------- */
+
+/* Token Catalog — single source of truth for all design decisions
+ *
+ * Semantic Tokens (what things are):
+ *   --color-bg          page background
+ *   --color-surface     card/elevated surface
+ *   --color-border      divider lines
+ *   --color-text        primary body text
+ *   --color-muted       secondary/decorative text
+ *   --color-accent      brand accent (gold)
+ *   --color-accent-ink  text on accent background
+ *
+ * Layout Tokens (where things go):
+ *   --container         max-width of content (52rem / 832px)
+ *   --gutter            horizontal padding (fluid via clamp)
+ *   --measure           optimal reading width (60ch)
+ *   --section-block     vertical space between sections (fluid via clamp)
+ *
+ * Corner Radius Tokens (visual consistency across surfaces):
+ *   --radius-xs:       2px    focus ring, tight accents
+ *   --radius-sm:       4px    tags, inline badges
+ *   --radius-md:       8px    cards, elevated surfaces
+ *   --radius-full:     999px  pills, buttons, toggle segments
+ *
+ * Spacing Scale (uniform increments, multiples of 4px / 0.25rem):
+ *   --space-1: 0.25rem   (4px)    micro — inline gaps
+ *   --space-2: 0.5rem    (8px)    small — tight padding
+ *   --space-3: 0.75rem   (12px)   medium — comfortable padding
+ *   --space-4: 1rem      (16px)   base unit
+ *   --space-5: 1.25rem   (20px)   component gaps
+ *   --space-6: 1.5rem    (24px)   section internal
+ *   --space-7: 1.75rem   (28px)   headline spacing
+ *   --space-8: 2rem      (32px)   card padding, footer
+ *   --space-10: 2.5rem   (40px)   subheading margin
+ *   --space-11: 2.75rem  (44px)   section-head gap
+ *   --space-12: 3rem     (48px)   large gaps
+ *
+ * Motion Tokens (timing & easing):
+ *   --motion-fast:       100ms    press / micro-feedback
+ *   --motion-normal:     150ms    hover transitions
+ *   --motion-slow:       250ms    nav underline draw, arrow move
+ *   --motion-entrance:   300ms    script-flip crossfade
+ *   --motion-duration:   700ms    scroll reveal, hero rise-in
+ *   --motion-stagger:    80ms     per-element stagger delay
+ *   --motion-delay-hero: 60ms     first element hero load
+ *   --motion-delay-rule: 550ms    name rule draw delay
+ *   --motion-ease:       ease     generic easing
+ *   --ease-reveal:       cubic-bezier(0.22, 1, 0.36, 1)  smooth overshoot
+ *
+ * Elevation Tokens (shadow layers):
+ *   --shadow-sm:         subtle card shadow
+ *
+ * Breakpoints:
+ *   36em  (576px) — nav collapse, mobile-only view
+ *   48em  (768px) — project grid reflow, tablet breakpoint
+ *   No max-width above 48em — fluid layout for desktop+
+ */
+
+:root {
+	/* Semantic color tokens */
+	--color-bg: #f8f9fa;
+	--color-surface: #ffffff;
+	--color-border: #e2e5e8;
+	--color-text: #1a1d21;
+	--color-muted: #6b7280;
+	--color-accent: #c49a3a;
+	--color-accent-ink: #faf9f6;
+
+	/* Backwards-compat aliases (map to semantic names) */
+	--bg: var(--color-bg);
+	--surface: var(--color-surface);
+	--border: var(--color-border);
+	--text: var(--color-text);
+	--muted: var(--color-muted);
+	--accent: var(--color-accent);
+	--accent-ink: var(--color-accent-ink);
+
+	/* Typography */
+	--font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+		'Helvetica Neue', Arial, sans-serif;
+	--font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+	--font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas,
+		'Liberation Mono', monospace;
+
+	/* Layout tokens */
+	--container: 52rem;
+	--gutter: clamp(1.25rem, 4vw, 2rem);
+	--measure: 60ch;
+	--section-block: clamp(5.5rem, 13vh, 9rem);
+
+	/* Corner radius — unified visual language */
+	--radius-xs: 2px;
+	--radius-sm: 4px;
+	--radius-md: 8px;
+	--radius-full: 999px;
+
+	/* Spacing scale — multiples of 4px (0.25rem) */
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-3: 0.75rem;
+	--space-4: 1rem;
+	--space-5: 1.25rem;
+	--space-6: 1.5rem;
+	--space-7: 1.75rem;
+	--space-8: 2rem;
+	--space-9: 2.25rem;
+	--space-10: 2.5rem;
+	--space-11: 2.75rem;
+	--space-12: 3rem;
+
+	/* Motion tokens */
+	--motion-fast: 100ms;
+	--motion-normal: 150ms;
+	--motion-slow: 250ms;
+	--motion-entrance: 300ms;
+	--motion-duration: 700ms;
+	--motion-stagger: 80ms;
+	--motion-delay-hero: 60ms;
+	--motion-delay-rule: 550ms;
+	--motion-translate-hero: 18px;
+	--motion-translate-reveal: 28px;
+	--motion-ease: ease;
+	--ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
+
+	/* Elevation tokens */
+	--shadow-sm: 0 1px 3px color-mix(in srgb, var(--color-text) 4%, transparent),
+		0 4px 12px color-mix(in srgb, var(--color-text) 3%, transparent);
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	background-color: var(--bg);
+	color: var(--text);
+	font-family: var(--font-sans);
+	line-height: 1.7;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+::selection {
+	background-color: var(--accent);
+	color: var(--accent-ink);
+}
+
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: var(--space-1);
+	border-radius: var(--radius-xs);
+	/* Secondary indicator for visibility on white card surfaces (gold outline has ~1.6:1 contrast on #fff) */
+	box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+a {
+	color: inherit;
+}
+
+/* Skip link — visible on focus for keyboard users (WCAG 2.4.1) */
+.skip-link {
+	position: absolute;
+	top: -100%;
+	left: var(--space-4);
+	z-index: 100;
+	padding: var(--space-3) var(--space-5);
+	background-color: var(--accent);
+	color: var(--accent-ink);
+	font-weight: 600;
+	text-decoration: none;
+	border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+	transition: top var(--motion-fast) var(--motion-ease);
+}
+
+.skip-link:focus {
+	top: 0;
+	outline: 2px solid var(--color-text);
+	outline-offset: 2px;
+}
+
+/* Layout helper ----------------------------------------------------------- */
+.wrap {
+	max-width: var(--container);
+	margin-inline: auto;
+	padding-inline: var(--gutter);
+}
+
+/* Header ------------------------------------------------------------------ */
+.site-header {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	background-color: color-mix(in srgb, var(--bg) 82%, transparent);
+	backdrop-filter: blur(10px);
+	border-bottom: 1px solid var(--border);
+}
+
+.site-header .wrap {
+	display: flex;
+	align-items: center;
+	gap: clamp(1rem, 3vw, 2.5rem);
+	height: 4rem;
+}
+
+.brand {
+	font-family: var(--font-serif);
+	font-size: 1.2rem;
+	letter-spacing: 0.01em;
+	text-decoration: none;
+}
+
+.site-nav {
+	margin-left: auto;
+	display: flex;
+	gap: clamp(1rem, 2.5vw, 1.75rem);
+}
+
+.site-nav a {
+	position: relative;
+	color: var(--muted);
+	font-size: 0.95rem;
+	text-decoration: none;
+	transition: color var(--motion-normal);
+}
+
+.site-nav a::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -3px;
+	height: 1.5px;
+	background-color: var(--accent);
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform var(--motion-slow) var(--ease-reveal);
+}
+
+.site-nav a:hover {
+	color: var(--text);
+}
+
+.site-nav a:hover::after {
+	transform: scaleX(1);
+}
+
+.site-nav a.active {
+	color: var(--text);
+}
+
+.site-nav a.active::after {
+	transform: scaleX(1);
+}
+
+/* Language toggle ----------------------------------------------------------- */
+.lang-toggle {
+	display: inline-flex;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-full);
+	overflow: hidden;
+}
+
+.lang-toggle button {
+	appearance: none;
+	background: transparent;
+	border: 0;
+	padding: 0.2rem 0.5rem;
+	font: inherit;
+	font-size: 0.7rem;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	color: var(--muted);
+	cursor: pointer;
+	min-height: 32px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	transition: color var(--motion-normal), background-color var(--motion-normal);
+}
+
+.lang-toggle button.active {
+	background-color: var(--accent);
+	color: var(--accent-ink);
+}
+
+/* Script pause toggle */
+.script-pause {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-1);
+	padding: var(--space-1) var(--space-3);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-full);
+	background: transparent;
+	color: var(--muted);
+	font-size: 0.75rem;
+	font-weight: 500;
+	letter-spacing: 0.04em;
+	cursor: pointer;
+	margin-top: var(--space-6);
+	transition: color var(--motion-normal), background-color var(--motion-normal), border-color var(--motion-normal);
+}
+
+.script-pause:hover {
+	color: var(--text);
+	border-color: var(--accent);
+	background-color: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+/* Hero ---------------------------------------------------------------------- */
+.hero {
+	position: relative;
+	isolation: isolate;
+	padding-block: clamp(4rem, 13vh, 8.5rem) var(--section-block);
+}
+
+/* Ambient warm glow behind the hero — static depth, no motion */
+.hero::before {
+	content: '';
+	position: absolute;
+	inset: -20% -30% auto;
+	height: 75%;
+	background: radial-gradient(
+		ellipse 55% 60% at 50% 10%,
+		color-mix(in srgb, var(--accent) 12%, transparent),
+		transparent 70%
+	);
+	z-index: -1;
+	pointer-events: none;
+}
+
+.hero-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.hero h1 {
+	margin: 0;
+	font-family: var(--font-serif);
+	font-size: clamp(3.25rem, 9vw, 6rem);
+	font-weight: 600;
+	line-height: 1.05;
+	letter-spacing: -0.02em;
+}
+
+.name-rule {
+	display: block;
+	width: var(--space-12);
+	height: 2px;
+	margin-top: var(--space-6);
+	background-color: var(--accent);
+}
+
+/* Auto-cycling Arabic script — no button, just text */
+.hero-script {
+	display: flex;
+	gap: var(--space-4);
+	align-items: baseline;
+	margin-top: var(--space-9);
+}
+
+.script-latin {
+	font-family: var(--font-serif);
+	font-style: italic;
+	font-size: 1.3rem;
+	transition: opacity var(--motion-entrance) var(--ease-reveal),
+		transform var(--motion-entrance) var(--ease-reveal);
+}
+
+.script-arabic {
+	font-size: 1.45rem;
+	line-height: 1.9;
+	opacity: 0;
+	transform: translateY(0.35em);
+	transition: opacity var(--motion-entrance) var(--ease-reveal),
+		transform var(--motion-entrance) var(--ease-reveal);
+}
+
+.hero-script.arabic-on .script-latin {
+	opacity: 0;
+	transform: translateY(-0.35em);
+}
+
+.hero-script.arabic-on .script-arabic {
+	opacity: 1;
+	transform: translateY(0) scale(1);
+}
+
+.hero .tagline {
+	margin: var(--space-7) 0 0;
+	max-width: 46ch;
+	font-size: clamp(1.1rem, 2vw, 1.3rem);
+	line-height: 1.5;
+}
+
+.hero .sub {
+	margin: var(--space-4) 0 0;
+	max-width: 58ch;
+	color: var(--muted);
+}
+
+.cta-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-3);
+	margin-top: var(--space-10);
+}
+
+/* Buttons ------------------------------------------------------------------- */
+.btn {
+	display: inline-block;
+	padding: var(--space-3) var(--space-5);
+	border-radius: var(--radius-full);
+	font-weight: 500;
+	text-decoration: none;
+	transition: background-color var(--motion-normal), border-color var(--motion-normal),
+		color var(--motion-normal), transform calc(var(--motion-fast)) var(--motion-ease);
+}
+
+.btn:active {
+	transform: scale(0.98);
+}
+
+.btn-primary {
+	background-color: var(--accent);
+	color: var(--accent-ink);
+}
+
+.btn-primary:hover {
+	/* Darken toward black for perceptible contrast change (was 86% white → nearly identical) */
+	background-color: color-mix(in srgb, var(--accent) 75%, black);
+	box-shadow: 0 2px 8px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.btn-ghost {
+	border: 1px solid var(--border);
+	color: var(--text);
+}
+
+.btn-ghost:hover {
+	border-color: var(--accent);
+	color: var(--accent);
+}
+
+/* Sections -------------------------------------------------------------------- */
+main > section + section {
+	border-top: 1px solid var(--border);
+}
+
+.section {
+	padding-block: var(--section-block);
+	scroll-margin-top: calc(var(--space-8) + var(--space-4)); /* keep anchored headings clear of the sticky header */
+}
+
+.section-head {
+	display: grid;
+	align-content: start;
+	gap: var(--space-4);
+	margin-bottom: var(--space-11);
+}
+
+.eyebrow {
+	display: flex;
+	align-items: center;
+	gap: var(--space-3);
+	margin: 0;
+	font-family: var(--font-mono);
+	font-size: 0.72rem;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: var(--muted);
+}
+
+.eyebrow::before {
+	content: '';
+	width: var(--space-8);
+	height: 1px;
+	background-color: var(--accent);
+	opacity: 0.7;
+}
+
+.section h2 {
+	margin: 0;
+	font-family: var(--font-serif);
+	font-size: clamp(1.85rem, 3.8vw, 2.6rem);
+	font-weight: 500;
+	letter-spacing: -0.01em;
+}
+
+.section h2::after {
+	content: '.';
+	color: var(--accent);
+}
+
+.prose {
+	max-width: var(--measure);
+	margin: 0 0 var(--space-5);
+}
+
+.section-head .prose {
+	margin: 0;
+}
+
+.subheading {
+	margin: var(--space-10) 0 var(--space-4);
+	font-size: 0.85rem;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--muted);
+}
+
+.chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-3);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.chips li {
+	border: 1px solid var(--border);
+	border-radius: var(--radius-full);
+	padding: var(--space-2) var(--space-5);
+	font-family: var(--font-mono);
+	font-size: 0.78rem;
+	letter-spacing: 0.06em;
+	color: var(--muted);
+}
+
+/* Projects — featured card + list rows (hierarchy, not a grid of equals) ---- */
+.intro {
+	max-width: 60ch;
+	margin: 0;
+	color: var(--muted);
+}
+
+.project-card.featured {
+	background-color: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-md);
+	padding: clamp(1.5rem, 3vw, 2.25rem);
+	margin-bottom: var(--space-2);
+	transition: border-color var(--motion-normal), box-shadow var(--motion-normal);
+	box-shadow: var(--shadow-sm);
+}
+
+.project-card.featured:hover {
+	border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+	box-shadow: 0 2px 12px color-mix(in srgb, var(--color-text) 6%, transparent);
+}
+
+.project-head {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: var(--space-4);
+	flex-wrap: wrap;
+}
+
+.project-card.featured h3 {
+	margin: 0;
+	font-family: var(--font-serif);
+	font-size: clamp(1.4rem, 2.5vw, 1.75rem);
+	font-weight: 600;
+	letter-spacing: -0.01em;
+}
+
+.project-card.featured .project-desc {
+	max-width: 62ch;
+	margin: var(--space-4) 0 0;
+	color: var(--muted);
+}
+
+.project-card.featured .tags {
+	margin-top: var(--space-5);
+}
+
+.project-rows {
+	border-bottom: 1px solid var(--border);
+	/* Match featured card internal padding — cancel wrap's gutter, set own */
+	margin-inline: calc(var(--gutter) * -1);
+	padding-inline: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.project-row {
+	display: grid;
+	grid-template-columns: minmax(11rem, 1fr) minmax(0, 1.7fr) auto;
+	gap: var(--space-6);
+	align-items: start;
+	padding: var(--space-6) var(--space-8);
+	border-top: 1px solid var(--border);
+	transition: background-color var(--motion-normal);
+}
+
+.project-row:hover {
+	/* Increased from 5% to 12% for perceptible hover feedback */
+	background-color: color-mix(in srgb, var(--accent) 12%, var(--bg));
+}
+
+@media (max-width: 48em) {
+	.project-row:hover {
+		/* Skip background tint on stacked rows — tall wrapped content makes the highlight feel like a blob */
+		background-color: transparent;
+	}
+}
+
+.project-title {
+	margin: 0;
+	font-size: 1.05rem;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	transition: color var(--motion-normal);
+}
+
+.project-row:hover .project-title {
+	color: var(--accent);
+}
+
+.project-row .tags {
+	margin-top: var(--space-2);
+}
+
+.project-desc {
+	margin: 0;
+	color: var(--muted);
+	font-size: 0.95rem;
+}
+
+.tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.tags li {
+	background-color: color-mix(in srgb, var(--text) 6%, transparent);
+	border-radius: var(--radius-sm);
+	padding: var(--space-1) var(--space-3);
+	font-family: var(--font-mono);
+	font-size: 0.68rem;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--muted);
+}
+
+.project-links {
+	display: flex;
+	gap: var(--space-5);
+	justify-self: end;
+}
+
+.project-links a {
+	color: var(--accent);
+	font-size: 0.9rem;
+	white-space: nowrap;
+	text-decoration: none;
+}
+
+.project-links a:hover {
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.project-links a.secondary {
+	color: var(--muted);
+}
+
+.arrow {
+	display: inline-block;
+	transition: transform var(--motion-slow) var(--ease-reveal);
+}
+
+a:hover .arrow {
+	transform: translate(var(--space-1), calc(var(--space-1) * -1));
+}
+
+/* Contact ------------------------------------------------------------------------ */
+.contact-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-3);
+	margin-top: var(--space-2);
+}
+
+/* Footer ---------------------------------------------------------------------------- */
+.site-footer {
+	border-top: 1px solid var(--border);
+	padding-block: var(--space-8);
+	padding-bottom: max(var(--space-4), env(safe-area-inset-bottom));
+	color: var(--muted);
+	font-size: 0.875rem;
+}
+
+.site-footer .wrap {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: var(--space-2) var(--space-8);
+	flex-wrap: wrap;
+}
+
+.site-footer p {
+	margin: 0;
+}
+
+.colophon {
+	font-family: var(--font-mono);
+	font-size: 0.72rem;
+	letter-spacing: 0.04em;
+	opacity: 0.85;
+}
+
+/* Back to top ----------------------------------------------------------- */
+.back-to-top {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-1);
+	background: transparent;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-full);
+	padding: var(--space-1) var(--space-3);
+	font-size: 0.72rem;
+	color: var(--muted);
+	cursor: pointer;
+	transition: color var(--motion-normal), background-color var(--motion-normal), border-color var(--motion-normal);
+}
+
+.back-to-top:hover {
+	color: var(--text);
+	border-color: var(--accent);
+	background-color: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+/* Motion (ADR 0005) ------------------------------------------------------------------ */
+@keyframes rise-in {
+	from {
+		opacity: 0;
+		transform: translateY(var(--motion-translate-hero)) scale(0.99);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes rule-draw {
+	from {
+		transform: scaleX(0);
+	}
+	to {
+		transform: scaleX(1);
+	}
+}
+
+/* Hero load sequence — pure CSS, runs even without JS */
+@media (prefers-reduced-motion: no-preference) {
+	.hero [data-rise] {
+		animation: rise-in var(--motion-duration) var(--ease-reveal) both;
+		animation-delay: calc(var(--i, 0) * var(--motion-stagger) + var(--motion-delay-hero));
+	}
+
+	.hero .name-rule {
+		transform-origin: left;
+		animation: rule-draw var(--motion-duration) var(--ease-reveal) both;
+		animation-delay: var(--motion-delay-rule);
+	}
+}
+
+/* Scroll reveals — hidden state only exists when JS is available (html.js),
+   so the prerendered no-JS page is never invisible */
+html.js .reveal {
+	opacity: 0;
+	transform: translateY(var(--motion-translate-reveal)) scale(0.995);
+	transition: opacity var(--motion-duration) var(--ease-reveal),
+		transform var(--motion-duration) var(--ease-reveal);
+	transition-delay: var(--d, 0ms);
+}
+
+html.js .reveal.is-visible {
+	opacity: 1;
+	transform: translateY(0) scale(1);
+}
+
+/* Responsive --------------------------------------------------------------------------- */
+@media (max-width: 48em) {
+	.project-row {
+		grid-template-columns: 1fr;
+		gap: var(--space-3);
+	}
+
+	.project-links {
+		justify-self: start;
+	}
+}
+
+@media (max-width: 36em) {
+	/* Mobile nav handled by Header component hamburger. */
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+		animation-delay: 0ms !important;
+	}
+
+	html.js .reveal {
+		opacity: 1 !important;
+		transform: none !important;
+	}
+}

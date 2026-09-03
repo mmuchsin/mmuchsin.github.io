@@ -1,0 +1,7 @@
+import type { PageServerLoad } from './$types';
+
+export const load: PageServerLoad = async ({ parent, params }) => {
+	const { posts } = await parent();
+	const tagPosts = posts.filter((post) => post.tags.includes(params.tag));
+	return { tag: params.tag, posts: tagPosts };
+};

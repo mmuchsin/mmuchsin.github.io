@@ -1,0 +1,98 @@
+{
+  "meta": {
+    "title": "Muchsin \u2014 Portfolio",
+    "description": "Portfolio of Muchsin \u2014 software engineer specializing in NLP, RAG research, and web engineering."
+  },
+  "nav": {
+    "about": "About",
+    "projects": "Projects",
+    "contact": "Contact",
+    "blog": "Blog"
+  },
+  "hero": {
+    "name": "Muchsin",
+    "tagline": "I build language tools for Arabic-script languages \u2014 from Pegon transliteration to RAG research.",
+    "sub": "Classical Islamic scholarship meets modern systems: my work spans NLP, retrieval-augmented generation, and web engineering.",
+    "flip_hint": "click to switch script",
+    "cta_projects": "See my work",
+    "cta_contact": "Get in touch"
+  },
+  "about": {
+    "eyebrow": "Background",
+    "title": "About",
+    "body_1": "I grew up as a santri \u2014 an Islamic student \u2014 where classical Arabic grammar (nahwu) and the Pegon script were part of everyday study. That background shaped how I think about language: as structure, precision, and knowledge passed across generations.",
+    "body_2": "Today I am a software engineer and master's student at UNNES, working on retrieval-augmented generation (RAG) and building NLP tools for Arabic-script languages. My work spans web engineering, machine learning research, and community platforms.",
+    "highlights_title": "Focus areas",
+    "highlights": [
+      "NLP & transliteration",
+      "RAG / LLM research",
+      "Web engineering",
+      "Computational Islamic humanities"
+    ]
+  },
+  "projects": {
+    "eyebrow": "Selected work",
+    "title": "Projects",
+    "intro": "A selection of things I have built \u2014 from open-source language tools to client work.",
+    "live": "Live site",
+    "repo_label": "Source code",
+    "items": [
+      {
+        "name": "Pegonku",
+        "description": "Transliteration engine for the Pegon script \u2014 Javanese written in Arabic script \u2014 converting between Pegon and Latin with high fidelity.",
+        "tags": [
+          "Nuxt",
+          "Python",
+          "NLP",
+          "Pegon"
+        ],
+        "live": "https://pegonku.netlify.app"
+      },
+      {
+        "name": "Pemuda Inklusi",
+        "description": "Community platform for inclusive youth development \u2014 built with the community, for the community.",
+        "tags": [
+          "Vue",
+          "Nuxt",
+          "Community"
+        ],
+        "live": "https://pemudainklusi.org"
+      },
+      {
+        "name": "Tokodifabel",
+        "description": "E-commerce site for a fashion brand, from design to launch \u2014 WordPress/WooCommerce with GSAP-driven interactions.",
+        "tags": [
+          "WordPress",
+          "WooCommerce",
+          "GSAP",
+          "Freelance"
+        ],
+        "live": "https://tokodifabel.com"
+      },
+      {
+        "name": "TQA RAG Playground",
+        "description": "Research playground for my master's thesis: a RAG pipeline over a thesis question-answering dataset, trained and evaluated on UNNES's HPC cluster.",
+        "tags": [
+          "Python",
+          "RAG",
+          "HPC",
+          "Thesis research"
+        ],
+        "repo": "https://github.com/mmuchsin/tqa-rag"
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Get in touch",
+    "title": "Contact",
+    "intro": "The fastest way to reach me is through GitHub or LinkedIn. I'm open to research collaborations, freelance work, and good conversations about language and code.",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "github_url": "https://github.com/mmuchsin",
+    "linkedin_url": "https://www.linkedin.com/in/mmuchsin"
+  },
+  "footer": {
+    "text": "\u00a9 2026 Muchsin",
+    "colophon": "Set in system type \u00b7 Built with SvelteKit"
+  }
+}

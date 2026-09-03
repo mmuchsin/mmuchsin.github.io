@@ -1,0 +1,16 @@
+.DS_Store
+node_modules
+/build
+/.svelte-kit
+/vite.config.ts.timestamp-*
+/vite.config.js.timestamp-*
+.env
+.env.*
+!.env.example
+
+.claude/
+.agents/
+.codex/
+.mcp.json
+.playwright/
+.scratch/
