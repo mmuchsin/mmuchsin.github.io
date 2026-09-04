@@ -76,9 +76,3 @@
 </main>
 
 <Footer copy={data.t.footer} />
-
-<style>
-	main#main-content {
-		min-height: 60vh;
-	}
-</style>
