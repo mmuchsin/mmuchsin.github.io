@@ -14,7 +14,7 @@ Personal portfolio website for Muchsin, deployed on GitHub Pages.
 - TypeScript strict mode everywhere; no implicit `any`
 - Prefer Svelte 5 runes (`$state`, `$derived`, `$effect`) over legacy stores
 - Keep site static-export compatible
-- Base path: `/portfolio` (GitHub Pages subpath)
+- Locale routing: `/en/…` and `/id/…` URL prefixes (ADR 0008); base path: `''` — root domain `muchsin.me` via CNAME
 
 ## Package Management
 
