@@ -52,6 +52,16 @@ src/
 e2e/                    # Playwright specs (redirect, navigation, rendering, 404s)
 ```
 
+## License
+
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](./LICENSE)
+
+This site — code, design, and content — is licensed under
+[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). You're welcome
+to clone and adapt it for **non-commercial** purposes with attribution; anything
+primarily intended for commercial advantage needs permission first
+([ADR 0009](./docs/adr/0009-license-cc-by-nc.md)).
+
 ## Documentation
 
 - [`CONTEXT.md`](./CONTEXT.md) — project glossary, current state, open questions
