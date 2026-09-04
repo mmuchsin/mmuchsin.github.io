@@ -1,19 +1,18 @@
 import { error } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
-import { translations, LOCALES } from '$lib/i18n';
+import { translations } from '$lib/i18n';
+import { isLocale } from '$lib/locale';
 
 export const load: LayoutServerLoad = async ({ params, parent }) => {
-	const locale = params.locale;
-
-	if (!LOCALES.includes(locale as 'en' | 'id')) {
+	if (!isLocale(params.locale)) {
 		error(404, 'Locale not found');
 	}
 
 	const { posts } = await parent();
 
 	return {
-		locale: locale as 'en' | 'id',
-		t: translations[locale as 'en' | 'id'],
+		locale: params.locale,
+		t: translations[params.locale],
 		posts
 	};
 };

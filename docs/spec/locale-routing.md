@@ -49,7 +49,9 @@ src/routes/
 - Loads translations based on locale: `translations[locale]`
 - Sets `<html lang>` to the active locale (hydration effect)
 - Header receives translated nav labels and the language toggle
-- Toggle swaps the locale segment in-place in the pathname
+- Toggle swaps the locale segment **by position** (`swapLocale` in
+  `src/lib/locale.ts`) — a tag or slug named "en"/"id" further along the path
+  is never mistaken for the locale
 - Active-section tracking (IntersectionObserver) lives in this layout so nav highlighting works across navigations
 
 ## Home Page (`[locale]/+page.svelte`)
@@ -63,7 +65,9 @@ src/routes/
 - Blog index filters posts by URL locale: `posts.filter(p => p.lang === locale)`
 - Post detail enforces language alignment: if `post.lang !== locale`, return 404
 - Tag page filters by both tag AND locale
-- Dates format based on locale (`id-ID` vs `en-US`)
+- Dates format via `formatDate(date, locale)` (`src/lib/locale.ts`) — long
+  form, `id-ID` vs `en-US`, formatted at UTC (date-only frontmatter parses
+  at UTC midnight)
 - No inline language filter — the URL locale does the filtering, the
   Header toggle is the only language switch
 
@@ -101,6 +105,13 @@ src/routes/
 | `blog_subtitle` | "Learning notes and technical reflections" | "Catatan belajar dan renungan teknis" |
 | `tag_heading` | "Posts tagged with " | "Postingan bertanda " |
 | `blog_back` | "← Back to Blog" | "← Kembali ke Blog" |
+| `redirect.message` | "Redirecting…" | "Mengalihkan…" |
+| `redirect.link_en` / `redirect.link_id` | "English" / "Bahasa Indonesia" | same (self-named) |
+| `error.not_found` | "This page could not be found." | "Halaman ini tidak ditemukan." |
+
+Locale type logic lives in `src/lib/locale.ts`: `isLocale` (type guard,
+replaces casting), `resolveLocale`, `localeFromPath`, `swapLocale`,
+`formatDate`. `SUPPORTED_LOCALES` was consolidated into i18n's `LOCALES`.
 
 ## Translation Keys Removed
 

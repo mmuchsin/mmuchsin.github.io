@@ -4,6 +4,7 @@
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import { translations, type Locale } from '$lib/i18n';
+	import { swapLocale } from '$lib/locale';
 	import type { Snippet } from 'svelte';
 
 	let { data, children }: {
@@ -48,17 +49,11 @@
 	});
 
 	function setLang(next: Locale) {
-		// Swap the locale segment in-place. window.location.pathname already
-		// includes the base path when one is configured, so don't prepend
-		// `base` again — just replace the locale token and navigate as-is.
-		const parts = window.location.pathname.split('/');
-		for (let i = 1; i < parts.length; i++) {
-			if (parts[i] === 'en' || parts[i] === 'id') {
-				parts[i] = next;
-				break;
-			}
-		}
-		window.location.pathname = parts.join('/');
+		// swapLocale replaces the locale segment by position — a tag or slug
+		// further along the path that happens to be named "en"/"id" is never
+		// mistaken for the locale. window.location.pathname already includes
+		// the base path, so pass it through as the swap base.
+		window.location.pathname = swapLocale(window.location.pathname, next, base);
 	}
 </script>
 

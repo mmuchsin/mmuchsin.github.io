@@ -2,6 +2,7 @@
 	import { base } from '$app/paths';
 	import type { PageData } from './$types';
 	import type { BlogPost } from '$lib/mdx/types.js';
+	import { formatDate } from '$lib/locale';
 
 	let { data }: { data: PageData } = $props();
 
@@ -11,35 +12,26 @@
 	// Filter posts by the current locale.
 	const posts = $derived(data.posts.filter((p: BlogPost) => p.lang === locale));
 
-	// Show all tags/categories from the current-locale subset.
+	// Show all tags/categories from the current-locale subset. Tags link to
+	// their tag pages; only the category filter is interactive state here.
 	const allTags = $derived(Array.from(new Set(posts.flatMap((p: BlogPost) => p.tags))).sort() as string[]);
 	const allCategories = $derived(Array.from(new Set(posts.flatMap((p: BlogPost) => p.categories))).sort() as string[]);
 
-	let selectedTag = $state<string | null>(null);
 	let selectedCategory = $state<string | null>(null);
 
 	const filteredPosts = $derived(
-		posts.filter((post: BlogPost) => {
-			const tagMatch = !selectedTag || post.tags.includes(selectedTag);
-			const catMatch = !selectedCategory || post.categories.includes(selectedCategory);
-			return tagMatch && catMatch;
-		})
+		posts.filter((post: BlogPost) => !selectedCategory || post.categories.includes(selectedCategory))
 	);
 
 	function clearFilters() {
-		selectedTag = null;
 		selectedCategory = null;
-	}
-
-	function isActive(value: string, selected: string | null): boolean {
-		return selected === value;
 	}
 </script>
 
 <main id="main-content" class="blog-list">
 	<header class="blog-header">
 		<h1>{t.nav.blog}</h1>
-		<p>{t.blog_subtitle ?? 'Learning notes and technical reflections'}</p>
+		<p>{t.blog_subtitle}</p>
 	</header>
 
 	<!-- Tag & Category Filters -->
@@ -49,13 +41,15 @@
 				<div class="filter-group">
 					<span class="filter-label">Category:</span>
 					<button
-						class="filter-btn {isActive('all', selectedCategory)}"
+						class="filter-btn"
+						class:active={selectedCategory === null}
 						onclick={() => { selectedCategory = null; }}>
 						All
 					</button>
 					{#each allCategories as category}
 						<button
-							class="filter-btn {isActive(category, selectedCategory)}"
+							class="filter-btn"
+							class:active={selectedCategory === category}
 							onclick={() => { selectedCategory = category; }}>
 							{category}
 						</button>
@@ -66,20 +60,15 @@
 			{#if allTags.length > 0}
 				<div class="filter-group">
 					<span class="filter-label">Tag:</span>
-					<button
-						class="filter-btn {isActive('all', selectedTag)}"
-						onclick={() => { selectedTag = null; }}>
-						All
-					</button>
 					{#each allTags as tag}
-						<a href={`${base}/${locale}/blog/tags/${tag}/`} class="filter-btn {isActive(tag, selectedTag)}">
+						<a href={`${base}/${locale}/blog/tags/${tag}/`} class="filter-btn">
 							#{tag}
 						</a>
 					{/each}
 				</div>
 			{/if}
 
-			{#if selectedTag || selectedCategory}
+			{#if selectedCategory}
 				<button class="clear-btn" onclick={clearFilters}>Clear filters</button>
 			{/if}
 		</div>
@@ -94,7 +83,7 @@
 				<article class="post-card">
 					<a href={`${base}/${locale}/blog/${post.slug}/`} class="post-link">
 						<div class="post-meta">
-							<span class="post-date">{new Date(post.date).toLocaleDateString(locale === 'id' ? 'id-ID' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+							<span class="post-date">{formatDate(post.date, locale)}</span>
 							{#if post.categories.length > 0}
 								<span class="post-category">{post.categories[0]}</span>
 							{/if}
