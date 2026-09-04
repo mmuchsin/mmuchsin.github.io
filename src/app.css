@@ -153,6 +153,13 @@ body {
 	line-height: 1.7;
 	-webkit-font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;
+	/* Full-height column scaffold (sticky footer): short pages (blog
+	   index, tag pages with no posts) still pin the footer to the bottom
+	   of the viewport. main absorbs the leftover height. */
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	min-height: 100dvh;
 }
 
 ::selection {
@@ -458,6 +465,12 @@ a {
 }
 
 /* Sections -------------------------------------------------------------------- */
+/* Flex-grow within the body column scaffold so the footer pins to the
+   viewport bottom on short pages. */
+main {
+	flex: 1;
+}
+
 main > section + section {
 	border-top: 1px solid var(--border);
 }
