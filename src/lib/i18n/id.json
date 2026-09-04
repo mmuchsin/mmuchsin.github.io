@@ -99,7 +99,9 @@
     "link_id": "Bahasa Indonesia"
   },
   "error": {
-    "not_found": "Halaman ini tidak ditemukan."
+    "eyebrow": "Galat",
+    "not_found": "Halaman ini tidak ditemukan.",
+    "cta": "Kembali ke beranda"
   },
   "footer": {
     "text": "\u00a9 2026 Muchsin",

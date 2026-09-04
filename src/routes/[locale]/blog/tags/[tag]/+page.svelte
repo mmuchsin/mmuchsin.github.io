@@ -2,6 +2,8 @@
 	import { base } from '$app/paths';
 	import type { PageData } from './$types';
 	import { formatDate } from '$lib/locale';
+	import MetaTags from '$lib/components/MetaTags.svelte';
+	import { formatTitle, pageUrl } from '$lib/site';
 
 	let { data }: { data: PageData } = $props();
 
@@ -12,6 +14,14 @@
 	const posts = $derived(data.posts);
 	const tag = $derived(data.tag);
 </script>
+
+<svelte:head>
+	<MetaTags
+		title={formatTitle(`${t.tag_heading}${tag}`)}
+		description={t.blog_subtitle}
+		url={pageUrl(locale, `blog/tags/${tag}`)}
+	/>
+</svelte:head>
 
 <main id="main-content" class="tag-page">
 	<header class="tag-header">

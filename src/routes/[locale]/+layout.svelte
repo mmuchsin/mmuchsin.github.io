@@ -5,6 +5,7 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import { translations, type Locale } from '$lib/i18n';
 	import { swapLocale } from '$lib/locale';
+	import { SITE_URL } from '$lib/site';
 	import type { Snippet } from 'svelte';
 
 	let { data, children }: {
@@ -58,10 +59,11 @@
 </script>
 
 <svelte:head>
-	<title>{data.t.meta.title}</title>
-	<meta name="description" content={data.t.meta.description} />
-	<link rel="alternate" hreflang="en" href={`${base}/en/`} />
-	<link rel="alternate" hreflang="id" href={`${base}/id/`} />
+	<!-- hreflang values must be absolute URLs — the prerenderer rewrites
+	     root-relative paths to relative ones, which Google ignores. -->
+	<link rel="alternate" hreflang="en" href={`${SITE_URL}/en/`} />
+	<link rel="alternate" hreflang="id" href={`${SITE_URL}/id/`} />
+	<link rel="alternate" hreflang="x-default" href={`${SITE_URL}/`} />
 </svelte:head>
 
 <Header locale={data.locale} nav={data.t.nav} {setLang} {activeSection} />

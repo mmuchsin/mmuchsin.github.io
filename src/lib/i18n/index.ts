@@ -55,7 +55,7 @@ export interface Dictionary {
 	tag_heading: string;
 	blog_back: string;
 	redirect: { message: string; link_en: string; link_id: string };
-	error: { not_found: string };
+	error: { eyebrow: string; not_found: string; cta: string };
 }
 
 /**
