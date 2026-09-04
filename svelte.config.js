@@ -12,6 +12,8 @@ function discoverBlogEntries() {
 
 	// Root redirect page
 	entries.push('/');
+	// Sitemap endpoint (nothing links to it, so the crawler won't find it)
+	entries.push('/sitemap.xml');
 
 	// Main site pages (locale-prefixed)
 	for (const locale of locales) {

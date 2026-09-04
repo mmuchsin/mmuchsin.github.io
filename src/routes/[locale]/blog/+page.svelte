@@ -3,6 +3,8 @@
 	import type { PageData } from './$types';
 	import type { BlogPost } from '$lib/mdx/types.js';
 	import { formatDate } from '$lib/locale';
+	import MetaTags from '$lib/components/MetaTags.svelte';
+	import { formatTitle, pageUrl } from '$lib/site';
 
 	let { data }: { data: PageData } = $props();
 
@@ -27,6 +29,14 @@
 		selectedCategory = null;
 	}
 </script>
+
+<svelte:head>
+	<MetaTags
+		title={formatTitle(t.nav.blog)}
+		description={t.blog_subtitle}
+		url={pageUrl(locale, 'blog')}
+	/>
+</svelte:head>
 
 <main id="main-content" class="blog-list">
 	<header class="blog-header">

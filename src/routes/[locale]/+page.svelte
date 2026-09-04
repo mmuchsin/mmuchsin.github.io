@@ -3,6 +3,8 @@
 	import Contact from '$lib/components/Contact.svelte';
 	import Hero from '$lib/components/Hero.svelte';
 	import Projects from '$lib/components/Projects.svelte';
+	import MetaTags from '$lib/components/MetaTags.svelte';
+	import { pageUrl } from '$lib/site';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -32,8 +34,11 @@
 </script>
 
 <svelte:head>
-	<title>{data.t.meta.title}</title>
-	<meta name="description" content={data.t.meta.description} />
+	<MetaTags
+		title={data.t.meta.title}
+		description={data.t.meta.description}
+		url={pageUrl(data.locale)}
+	/>
 </svelte:head>
 
 <Hero copy={data.t.hero} />
