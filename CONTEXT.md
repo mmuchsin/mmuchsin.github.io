@@ -27,7 +27,7 @@ Personal portfolio website for **Muchsin**, deployed on GitHub Pages.
 
 **v1.2 light editorial redesign (2026-08-28):** three-phase rollout — (14) palette swap to light theme (`--bg: #f8f9fa`, `--surface: #ffffff`, `--accent: #c49a3a` gold), (15) typography scale refinements (clamp-based hero name, lighter heading weight, tighter container), (16) motion refinements (scaled component animations, increased translate distances, polished layout). ADR 0004 (dark typographic design) fully superseded.
 
-- Repo: `mmuchsin/mmuchsin.github.io` (public; active development repo — `mmuchsin/portfolio` is the earlier dev repo, kept for history)
+- Repo: `mmuchsin/mmuchsin.github.io` (public; active development repo — `mmuchsin/portfolio`, the earlier dev repo, was **archived 2026-09-04**: read-only, Pages off, kept for history; its code stays fetchable via `git fetch https://github.com/mmuchsin/portfolio.git`)
 - Issue tracker: GitHub Issues with 5 canonical triage labels
 - Tech stack: SvelteKit + TypeScript (strict) + Svelte 5 runes + `@sveltejs/adapter-static`
 - Deploy: GitHub Pages via GitHub Actions; root domain `muchsin.me` (CNAME, `kit.paths.base: ''`)
