@@ -12,6 +12,7 @@ node_modules
 .agents/
 .codex/
 .mcp.json
+.impeccable/
 
 /playwright-report
 /test-results
