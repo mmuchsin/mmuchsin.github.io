@@ -93,6 +93,14 @@
   "blog_subtitle": "Learning notes and technical reflections",
   "tag_heading": "Posts tagged with ",
   "blog_back": "\u2190 Back to Blog",
+  "redirect": {
+    "message": "Redirecting\u2026",
+    "link_en": "English",
+    "link_id": "Bahasa Indonesia"
+  },
+  "error": {
+    "not_found": "This page could not be found."
+  },
   "footer": {
     "text": "\u00a9 2026 Muchsin",
     "colophon": "Set in system type \u00b7 Built with SvelteKit"

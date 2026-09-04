@@ -1,20 +1,18 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import type { PageData } from './$types';
-	import type { BlogPost } from '$lib/mdx/types.js';
-	import type { Dictionary } from '$lib/i18n';
+	import { formatDate } from '$lib/locale';
 
-	let { data }: { data: PageData & { locale: 'en' | 'id'; t: Dictionary } } = $props();
-	const post = $derived(data.post as BlogPost);
+	let { data }: { data: PageData } = $props();
+	const post = $derived(data.post);
 	const t = $derived(data.t);
 </script>
 
 <main id="main-content">
-	{#if post}
-		<article class="post">
+	<article class="post">
 		<header class="post-header">
 			<div class="post-meta">
-				<span class="post-date">{new Date(post.date).toLocaleDateString(data.locale === 'id' ? 'id-ID' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+				<span class="post-date">{formatDate(post.date, data.locale)}</span>
 				{#if post.categories.length > 0}
 					<span class="post-category">{post.categories.join(', ')}</span>
 				{/if}
@@ -36,12 +34,9 @@
 		<!-- MDX Content -->
 		<div class="post-content">{@html post.content}</div>
 
-			<!-- Back to blog -->
-			<a href={`${base}/${data.locale}/blog/`} class="back-link">{t.blog_back}</a>
-		</article>
-	{:else}
-		<p>Post not found</p>
-	{/if}
+		<!-- Back to blog -->
+		<a href={`${base}/${data.locale}/blog/`} class="back-link">{t.blog_back}</a>
+	</article>
 </main>
 
 <style>

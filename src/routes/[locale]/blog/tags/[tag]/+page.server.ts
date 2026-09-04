@@ -5,5 +5,5 @@ export const load: PageServerLoad = async ({ parent, params }) => {
 	const tagPosts = posts.filter(
 		(post) => post.tags.includes(params.tag) && post.lang === locale
 	);
-	return { tag: params.tag, posts: tagPosts, locale };
+	return { tag: params.tag, posts: tagPosts };
 };

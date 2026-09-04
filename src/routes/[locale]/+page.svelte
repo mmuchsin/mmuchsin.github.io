@@ -3,9 +3,9 @@
 	import Contact from '$lib/components/Contact.svelte';
 	import Hero from '$lib/components/Hero.svelte';
 	import Projects from '$lib/components/Projects.svelte';
-	import type { LayoutData } from '../$types';
+	import type { PageData } from './$types';
 
-	let { data }: { data: LayoutData } = $props();
+	let { data }: { data: PageData } = $props();
 
 	// Scroll reveals — one observer, class toggle, CSS does the motion.
 	// Pages remount on navigation, so this runs per page.
