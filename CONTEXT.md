@@ -71,6 +71,14 @@ Personal portfolio website for **Muchsin**, deployed on GitHub Pages.
 
 - Blog comments (giscus / GitHub Discussions — next feature candidate)
 - CV/Resume page (future)
+
+## Loose Ends (parked, 2026-09-04)
+
+- **GitHub Pages settings (manual, one sitting):** verify apex `muchsin.me` (TXT in Namecheap) → then attach `www.muchsin.me` so its cert stops throwing browser warnings (DNS already CNAME'd, http 301 works, https cert mismatch is the remaining gap); upload social preview image (use `static/og-image.png`)
+- **Google Search Console:** register muchsin.me (DNS TXT), submit `https://muchsin.me/sitemap.xml`
+- **Issue tracker never instantiated:** zero issues ever; the 5 canonical triage labels (docs/agents/triage-labels.md) don't exist on GitHub — only default labels. Decide: create them + start opening a tracking issue per feature flow
+- **PR metadata habit:** every PR gets assignees/labels/projects/milestones/development links (user instruction, 2026-09-04); default labels fit feature PRs today (`enhancement`/`bug`/`documentation`)
+- Copilot Code Review workflow appeared on the repo (2026-09-04) — confirm deliberate or disable
 ## Blog Feature (implemented 2026-08-29, locale-aware since v2)
 
 **Status:** Shipped — per-locale URLs (`/en/blog/…`, `/id/blog/…`).
