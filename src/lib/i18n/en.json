@@ -37,6 +37,16 @@
     "repo_label": "Source code",
     "items": [
       {
+        "name": "Keuangan Siswa",
+        "description": "Finance administration app for SMP Takhassus Al-Qur'an — replaces a fragile shared Excel workbook with structured student billing, automated payment allocation, and immutable audit trail. All data shown in the prototype is fictional (sample data).",
+        "tags": [
+          "Laravel",
+          "Filament",
+          "MariaDB"
+        ],
+        "live": "https://sample-keuangan-tu.netlify.app"
+      },
+      {
         "name": "Pegonku",
         "description": "Transliteration engine for the Pegon script \u2014 Javanese written in Arabic script \u2014 converting between Pegon and Latin with high fidelity.",
         "tags": [

@@ -37,6 +37,16 @@
     "repo_label": "Kode sumber",
     "items": [
       {
+        "name": "Keuangan Siswa",
+        "description": "Aplikasi administrasi keuangan untuk SMP Takhassus Al-Qur'an — menggantikan lembar kerja Excel yang rapuh dengan penagihan siswa yang terstruktur, alokasi pembayaran otomatis, dan catatan audit yang tak dapat diubah. Seluruh data yang tampil pada prototype bersifat fiktif (data contoh).",
+        "tags": [
+          "Laravel",
+          "Filament",
+          "MariaDB"
+        ],
+        "live": "https://sample-keuangan-tu.netlify.app"
+      },
+      {
         "name": "Pegonku",
         "description": "Mesin transliterasi aksara Pegon \u2014 tulisan Jawa beraksara Arab \u2014 yang mengonversi antara Pegon dan Latin dengan akurasi tinggi.",
         "tags": [
