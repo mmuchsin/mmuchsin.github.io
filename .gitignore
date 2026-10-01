@@ -13,6 +13,7 @@ node_modules
 .codex/
 .mcp.json
 .impeccable/
+.pi/
 
 /playwright-report
 /test-results
